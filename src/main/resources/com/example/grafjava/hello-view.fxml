@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.grafjava.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.HBox?>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.grafjava.SterGUI">
+   <children>
+      <Button mnemonicParsing="false" onAction="#startClicked" text="START" />
+      <ToggleButton mnemonicParsing="false" text="FORCE" />
+      <TextField fx:id="wymiary" alignment="CENTER" promptText="ROZMIAR" />
+      <TextField fx:id="nazwa" alignment="CENTER" promptText="PLIK" />
+      <Button fx:id="gen" mnemonicParsing="false" onAction="#genClicked" text="GEN" />
+      <Button fx:id="inp" mnemonicParsing="false" onAction="#inpClicked" text="INP" />
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</HBox>
