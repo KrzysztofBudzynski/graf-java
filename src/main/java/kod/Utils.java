@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class Utils {
-    public static Labirynt readLabirynt( String path ) throws IOException {
+    public static Labirynt readLabirynt( String path ) throws Exception {
         BufferedReader br = new BufferedReader(new FileReader(path));
         String line;
         int ln = 0;
@@ -17,13 +17,13 @@ public class Utils {
         words = line.split("\\s+");
 
         if( words.length != 2 ) {
-            throw new IOException("zły format pliku (rozmiar)");
+            throw new ReadException(ln, "Wymiary grafu");
         }
 
         int h = Integer.parseInt(words[0]);
         int w = Integer.parseInt(words[1]);
         if( h <= 0 || w <= 0 ) {
-            throw new IOException("niepoprawne w lub h");
+            throw new ReadException(ln, "Wymiary grafu");
         }
 
         Labirynt l = new Labirynt(h, w);
@@ -33,13 +33,13 @@ public class Utils {
         while( (line = br.readLine()) != null ) {
             words = line.split("\\s+");
             if( words.length % 2 != 0 ) {
-                throw new IOException("zły format pliku (wagi)");
+                throw new ReadException(ln, "Wagi");
             }
             for( int i = 0; i < words.length/2; i++ ) {
                 p = Integer.parseInt(words[2*i]);
                 waga = Double.parseDouble(words[2*i+1].replace(":", ""));
                 if( waga <= 0 ) continue;
-                if( p < 0 ) throw new IOException("zły numer punktu - ln: " + ln + " i: " + i);
+                if( p < 0 ) throw new ReadException(ln, "Punkt o ujemnym indeksie");
 
                 if( p == ln - l.getW() ) {
                     l.getPkt().get(ln).getEdges().get(0).setWaga(waga);
@@ -57,7 +57,7 @@ public class Utils {
                     l.getPkt().get(ln).getEdges().get(3).setWaga(waga);
                     l.getPkt().get(p).getEdges().get(1).setWaga(waga);
                 }
-                else throw new IOException("Punkt " + ln + " nie jest obok punktu " + p);
+                else throw new ReadException(ln, "Punkty nie mogą mieć połączenia");
             }
             ln++;
         }

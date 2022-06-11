@@ -1,10 +1,11 @@
 package kod;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Labirynt {
+public class Labirynt implements Iterable<Punkt>{
     private final int h;
     private final int w;
     private final int n;
@@ -79,6 +80,7 @@ public class Labirynt {
     });
 
     private void funkcjaDzielenia( int n ) {
+        System.out.println("dzielenie");
         Random r = new Random();
         int a = Math.abs(r.nextInt() % (int)(h * 0.33)) + (int)(h * 0.33);    // oś y
         int b = Math.abs(r.nextInt() % (int)(w * 0.33)) + (int)(w * 0.33);    // oś x
@@ -134,5 +136,23 @@ public class Labirynt {
             result.append('\n');
         }
         return result.toString();
+    }
+
+    @Override
+    public Iterator<Punkt> iterator() {
+        return new Iterator<Punkt>() {
+            int curr = 0;
+            int lgt = n;
+
+            @Override
+            public boolean hasNext() {
+                return curr < lgt;
+            }
+
+            @Override
+            public Punkt next() {
+                return pkt.get(curr++);
+            }
+        };
     }
 }

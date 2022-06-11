@@ -1,6 +1,7 @@
 package kod;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,7 +12,7 @@ public class Main {
         if (args.length == 2) {
             try {
                 l = Utils.readLabirynt(args[1]);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 System.err.println(e.getMessage());
                 return;
             }
