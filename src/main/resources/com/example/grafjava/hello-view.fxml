@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.BorderPane?>
@@ -10,12 +11,19 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.grafjava.SterGUI">
    <top>
-      <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="592.0">
+      <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="592.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="szerokosc" alignment="CENTER" prefHeight="25.0" prefWidth="80.0" promptText="SZEROKOŚĆ" />
             <TextField fx:id="wysokosc" alignment="CENTER" prefHeight="25.0" prefWidth="80.0" promptText="WYSOKOŚĆ" />
             <Button fx:id="gen" mnemonicParsing="false" onAction="#genClicked" prefHeight="25.0" prefWidth="60.0" text="GEN" />
-            <ToggleButton fx:id="selectFile" accessibleRole="BUTTON" mnemonicParsing="false" onAction="#fileSelect" prefHeight="25.0" prefWidth="80.0" text="SELECT FILE" textAlignment="CENTER" />
+            <ToggleButton fx:id="selectFile" accessibleRole="BUTTON" mnemonicParsing="false" onAction="#fileSelect" prefHeight="25.0" prefWidth="78.0" text="SELECT FILE" textAlignment="CENTER" />
+            <Label fx:id="nazwapliku" alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" text="NAZWA PLIKU">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </Label>
             <Button fx:id="inp" mnemonicParsing="false" onAction="#inpClicked" prefHeight="25.0" prefWidth="60.0" text="INPUT" />
             <TextField fx:id="poczatkowy" alignment="CENTER" prefHeight="25.0" prefWidth="55.0" promptText="OD" />
             <TextField fx:id="koncowy" alignment="CENTER" prefHeight="25.0" prefWidth="55.0" promptText="DO" />

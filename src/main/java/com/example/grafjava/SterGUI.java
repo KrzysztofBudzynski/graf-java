@@ -11,6 +11,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.paint.Color;
 import javafx.stage.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 import kod.*;
 import com.example.grafjava.HelloApplication;
@@ -20,10 +22,12 @@ public class SterGUI {
     public TextField szerokosc;
     public TextField wysokosc;
     public String nazwa;
+    public String nazwaladna;
     public Canvas canvas;
     public TextField poczatkowy;
     public TextField koncowy;
     public ToggleButton force;
+    public Label nazwapliku;
     private Labirynt l = null;
     private Dijkstra d;
     private Bfs b;
@@ -125,10 +129,19 @@ public class SterGUI {
         //System.out.println(plik);
         if (plik != null){
         nazwa = plik.getAbsolutePath();
+        System.out.println(nazwa);
+        nazwaladna = plik.getName();
+        System.out.println(nazwaladna);
+
+        nazwapliku.setText(nazwaladna);
         }
-        else{ System.err.println("Nie wybrano pliku.\n");
-        return;
-    }
+        else
+        {
+            System.err.println("Nie wybrano pliku.\n");
+            return;
+        }
+
+
         //System.out.println(nazwa);
     }
     
