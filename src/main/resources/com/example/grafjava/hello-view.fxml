@@ -11,15 +11,13 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.grafjava.SterGUI">
    <top>
-      <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="592.0" BorderPane.alignment="CENTER">
+      <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="675.0">
          <children>
             <TextField fx:id="wysokosc" alignment="CENTER" prefHeight="25.0" prefWidth="80.0" promptText="WYSOKOŚĆ" />
+            <TextField fx:id="szerokosc" alignment="CENTER" prefHeight="25.0" prefWidth="80.0" promptText="SZEROKOŚĆ" />
             <Button fx:id="gen" mnemonicParsing="false" onAction="#genClicked" prefHeight="25.0" prefWidth="60.0" text="GEN" />
             <ToggleButton fx:id="selectFile" accessibleRole="BUTTON" mnemonicParsing="false" onAction="#fileSelect" prefHeight="25.0" prefWidth="78.0" text="SELECT FILE" textAlignment="CENTER" />
-            <Label fx:id="nazwapliku" alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" text="NAZWA PLIKU">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
+            <Label fx:id="nazwapliku" prefHeight="25.0" text="WYBRANY PLIK">
                <padding>
                   <Insets left="5.0" right="5.0" />
                </padding>
