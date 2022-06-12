@@ -6,9 +6,7 @@ import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.*;
 import javafx.scene.control.Label;
@@ -28,9 +26,12 @@ public class SterGUI {
     public TextField koncowy;
     public ToggleButton force;
     public Label nazwapliku;
+    public Button dziel;
+    public TextField czesci;
     private Labirynt l = null;
     private Dijkstra d;
     private Bfs b;
+    private Dzielnik dz;
     private GraphicsContext grc;
 
     @FXML
@@ -57,7 +58,7 @@ public class SterGUI {
         try {
             b.join();
         } catch (InterruptedException ignored) {}
-        if( ! b.getSpojny() ) {
+        if( ! b.getSpojny()  && !czyForce ) {
             System.err.println("Graf niespójny, bez wymuszenia, szukanie ścieżki się nie odbywa");
             return;
         }
@@ -67,6 +68,19 @@ public class SterGUI {
             d.join();
         } catch (InterruptedException ignored) {}
         System.out.println("Graf przeszukany, start = " + start + " koniec = " + end + " force = " + czyForce);
+        grc.setFill(Color.BLACK);
+        double dx = (canvas.getWidth() - 50) / l.getW();
+        double dy = (canvas.getHeight() - 50)/ l.getH();
+        double r = 3;
+        grc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight() );
+
+        if( end != Integer.MAX_VALUE ) {
+            int i = end;
+            while( i != start ) {
+                System.out.println(i + " " + d.getPrzez()[i]);
+                i = d.getPrzez()[i];
+            }
+        }
     }
 
     @FXML
@@ -118,8 +132,9 @@ public class SterGUI {
         //     return;
         // }
         l = new Labirynt(height, width);
-        l.genWagi();
+        l.gen();
         System.out.println("Wygenerowano, wysokosc " + height + " szerokosc " + width + "\n");
+        rysuj();
     }
     @FXML
     private void fileSelect() {
@@ -155,8 +170,9 @@ public class SterGUI {
             System.err.println(e.getMessage());
         }
         if( l != null ) {
-            System.out.println("Wczytano z: " + nazwa);
+            System.out.println("Wczytano z: " + nazwa + " h = " + l.getH() + " w = " + l.getW());
         }
+        rysuj();
     }
 
     private void rysuj() {
@@ -164,11 +180,49 @@ public class SterGUI {
             System.err.println("Nie jest wczytany graf do rysowania");
             return;
         }
-        double dx = canvas.getWidth() / l.getW();
-        double dy = canvas.getHeight() / l.getH();
+        double canX = canvas.getLayoutX();
+        double canY = canvas.getLayoutY();
+        double dx = (canvas.getWidth() - 50) / l.getW();
+        double dy = (canvas.getHeight() - 50)/ l.getH();
+        double x, y;
+        double r = 3;
+        System.out.println(canX + " " + canY + " " + dx + " " + dy);
         grc = canvas.getGraphicsContext2D();
+        grc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        grc.setFill(Color.BLACK);
         for(Punkt p : l ) {
-
+            x = canX + dx * p.getKolumna() + r;
+            y = canY + dy * p.getWiersz() + r;
+            p.setPX(x);
+            p.setPY(y);
+            grc.fillOval(x - r, y - r, 2 * r, 2 * r);
+            if( p.getEdges().get(1).getTo() != null ) {
+                grc.fillRect(x, y, dx, 1);
+            }
+            if( p.getEdges().get(2).getTo() != null ) {
+                grc.fillRect(x, y, 1, dy);
+            }
         }
+    }
+
+    @FXML
+    private void dzielClicked() {
+        if( l == null ) {
+            System.err.println("Nie ma nic do dzielenia");
+            return;
+        }
+        int n = Integer.parseInt(czesci.getText());
+        if( n <= 1 ) {
+            System.err.println("Nie można dzielić na mniej niż 2 części");
+            return;
+        }
+        dz = new Dzielnik(l, n);
+        dz.start();
+        try {
+            dz.join();
+        } catch (InterruptedException e) {
+            System.err.println(e.getLocalizedMessage());
+        }
+        rysuj();
     }
 }

@@ -53,6 +53,38 @@ public class Labirynt implements Iterable<Punkt>{
         }
     }
 
+    public void gen() {
+        genWag g = new genWag(this);
+        g.start();
+        try {
+            g.join();
+        } catch (InterruptedException e) {
+            System.err.println(e.getLocalizedMessage());
+        }
+    }
+
+    private static class genWag extends Thread {
+        Labirynt l;
+
+        private genWag(Labirynt l) {
+            this.l = l;
+        }
+
+        @Override
+        public void run() {
+            Random r = new Random();
+            for( Punkt p : l ) {
+                for( int i = 0; i < 2; i++ ) {
+                    if( p.getEdges().get(i).getTo() != null ) {
+                        p.getEdges().get(i).setWaga(r.nextDouble());
+                        p.getEdges().get(i).getTo().getEdges().get(i+2)
+                                .setWaga(p.getEdges().get(i).getWaga());
+                    }
+                }
+            }
+        }
+    }
+
     public boolean testWag() {      // raczej działa
         for( int i = 0; i < this.n; i++ ) {
             for( int k = 0; k < 2; k++ ) {
@@ -105,8 +137,8 @@ public class Labirynt implements Iterable<Punkt>{
             next = p.getEdges().get(k).getTo();
         } while( p.getEdges().get(k).getTo() == null );
 
-        p.nullify(1);
-        p.nullify(2);
+        p.mark(1);
+        p.mark(2);
 
         if( a == 0 || a == h-1 || b == 0 || b == w-1 ) return;
         rekDzielenie( next );

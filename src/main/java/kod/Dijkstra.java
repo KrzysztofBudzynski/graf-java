@@ -65,6 +65,10 @@ public class Dijkstra extends Thread {
         return min;
     }
 
+    public int[] getPrzez() {
+        return przez;
+    }
+
     public boolean testOdw() {      // czy wszystkie odwiedzone
         for( int j : odw ) {
             if( j != 1 ) return false;

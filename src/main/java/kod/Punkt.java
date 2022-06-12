@@ -10,6 +10,8 @@ public class Punkt implements Comparable<Object> {
     private final int index;
 
     private final List<Edge> edges;
+    private double pX;      //pixel x
+    private double pY;      //pixel y
 
     public List<Edge> getEdges() {
         return edges;
@@ -34,11 +36,24 @@ public class Punkt implements Comparable<Object> {
         edges = new ArrayList<>();
     }
 
-    public void nullify(int k ) {      // k kierunkiem, usuwa połączenie
+    public void mark(int k ) {      // k kierunkiem, usuwa połączenie
         if( this.getEdges().get(k).getTo() == null ) return;
 
         getEdges().get(k).getTo().getEdges().get((k+2) % 4).setWaga(-1);
         getEdges().get(k).setWaga(-1);
+    }
+
+    public void remove(int k) {
+        getEdges().get(k).getTo().getEdges().get((k+2) % 4).setNull();
+        getEdges().get(k).setNull();
+    }
+
+    public void setPX(double pX) {
+        this.pX = pX;
+    }
+
+    public void setPY(double pY) {
+        this.pY = pY;
     }
 
     @Override

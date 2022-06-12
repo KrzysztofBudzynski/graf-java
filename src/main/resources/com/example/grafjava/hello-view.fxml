@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.grafjava.SterGUI">
+<BorderPane prefHeight="630.0" prefWidth="679.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.grafjava.SterGUI">
    <top>
       <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="675.0">
          <children>
@@ -27,6 +27,8 @@
             <TextField fx:id="koncowy" alignment="CENTER" prefHeight="25.0" prefWidth="55.0" promptText="DO" />
             <ToggleButton fx:id="force" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="FORCE" />
             <Button fx:id="start" mnemonicParsing="false" onAction="#startClicked" prefHeight="25.0" prefWidth="60.0" text="START" />
+            <TextField fx:id="czesci" alignment="CENTER" layoutX="464.0" layoutY="10.0" prefHeight="26.0" prefWidth="66.0" promptText="OD" text="części" />
+            <Button fx:id="dziel" layoutX="156.0" layoutY="10.0" minWidth="0.0" mnemonicParsing="false" onAction="#dzielClicked" prefHeight="25.0" prefWidth="60.0" text="DZIEL" />
          </children>
          <opaqueInsets>
             <Insets />
@@ -34,6 +36,6 @@
       </HBox>
    </top>
    <center>
-      <Canvas fx:id="canvas" height="600.0" width="600.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="canvas" height="600.0" width="600.0" />
    </center>
 </BorderPane>
