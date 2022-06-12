@@ -32,7 +32,7 @@ public class HelloApplication extends Application {
         if (args.length == 2) {
             try {
                 l = Utils.readLabirynt(args[1]);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 System.err.println(e.getMessage());
                 return;
             }
