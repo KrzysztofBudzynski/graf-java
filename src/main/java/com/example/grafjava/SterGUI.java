@@ -72,7 +72,8 @@ public class SterGUI {
         double dx = (canvas.getWidth() - 50) / l.getW();
         double dy = (canvas.getHeight() - 50)/ l.getH();
         double r = 3;
-        grc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight() );
+        //grc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight() );
+        rysujSciezke();
 
         if( end != Integer.MAX_VALUE ) {
             int i = end;
@@ -81,6 +82,23 @@ public class SterGUI {
                 i = d.getPrzez()[i];
             }
         }
+
+        
+
+        // for(Punkt p : l ) {
+        //     x = canX + dx * p.getKolumna() + r;
+        //     y = canY + dy * p.getWiersz() + r;
+        //     p.setPX(x);
+        //     p.setPY(y);
+        //     grc.fillOval(x - r, y - r, 2 * r, 2 * r);
+        //     if( p.getEdges().get(1).getTo() != null ) {
+        //         grc.fillRect(x, y, dx, 1);
+        //     }
+        //     if( p.getEdges().get(2).getTo() != null ) {
+        //         grc.fillRect(x, y, 1, dy);
+        //     }
+        // }
+
     }
 
     @FXML
@@ -201,6 +219,73 @@ public class SterGUI {
             }
             if( p.getEdges().get(2).getTo() != null ) {
                 grc.fillRect(x, y, 1, dy);
+            }
+        }
+    }
+    @FXML
+    private void rysujSciezke() {
+        double canX = canvas.getLayoutX();
+        double canY = canvas.getLayoutY();
+        double dx = (canvas.getWidth() - 50) / l.getW();
+        double dy = (canvas.getHeight() - 50)/ l.getH();
+        double x, y, x2, y2;
+        double r = 3;
+        int start = 0;
+        int end = Integer.MAX_VALUE;
+        Punkt p, p2;
+        if( poczatkowy.getText() != "" ) {
+            start = Integer.parseInt(poczatkowy.getText());
+        }
+        if( koncowy.getText() != "" ) {
+            end = Integer.parseInt(koncowy.getText());
+        }
+        if( l == null ) {
+            System.err.println("Nie wczytano żadnego grafu");
+            return;
+        }
+        grc.setFill(Color.RED);
+        if( end != Integer.MAX_VALUE ) {
+            int i = end;
+            while( i != start ) {
+                p = l.getPkt().get(i);
+                p2 = l.getPkt().get(d.getPrzez()[i]);
+                x = canX + dx * p.getKolumna() + r;
+                y = canY + dy * p.getWiersz() + r;
+                p.setPX(x);
+                p.setPY(y);
+                p2.setPX(x);
+                p2.setPY(y);
+                x2 = canX + dx * p2.getKolumna() + r;
+                y2 = canY + dy * p2.getWiersz() + r;
+
+                grc.fillOval(x - r, y - r, 2 * r, 2 * r);
+                grc.fillOval(x2 - r, y2 - r, 2 * r, 2 * r);
+                if( p.getEdges().get(1).getTo() != null) {
+                    if (p.getEdges().get(1).getTo().getIndex() == d.getPrzez()[i])
+                    {
+                        grc.fillRect(x, y, dx, 1);
+                    }
+                }
+                if( p.getEdges().get(2).getTo() != null) {
+                    if (p.getEdges().get(2).getTo().getIndex() == d.getPrzez()[i])
+                    {
+                        grc.fillRect(x, y, 1, dy);
+                    }
+                }
+                if (p2.getEdges().get(1).getTo() != null) {
+                    if (p2.getEdges().get(1).getTo().getIndex() == i)
+                    {
+                        grc.fillRect(x2, y2, dx, 1);
+                    }
+                }
+                if (p2.getEdges().get(2).getTo() != null) {
+                    if (p2.getEdges().get(2).getTo().getIndex() == i)
+                    {
+                        grc.fillRect(x2, y2, 1, dy);
+                    }
+                }
+                i = d.getPrzez()[i];
+
             }
         }
     }
