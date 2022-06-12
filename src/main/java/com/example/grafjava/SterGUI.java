@@ -73,8 +73,9 @@ public class SterGUI {
         double dy = (canvas.getHeight() - 50)/ l.getH();
         double r = 3;
         //grc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight() );
+        rysuj();
         rysujSciezke();
-
+        
         if( end != Integer.MAX_VALUE ) {
             int i = end;
             while( i != start ) {
