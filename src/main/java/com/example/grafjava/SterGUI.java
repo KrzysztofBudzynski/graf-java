@@ -14,6 +14,7 @@ import javafx.stage.*;
 
 import kod.*;
 import com.example.grafjava.HelloApplication;
+import com.example.grafjava.*;
 
 public class SterGUI {
     public TextField szerokosc;
@@ -118,21 +119,23 @@ public class SterGUI {
     }
     @FXML
     private void fileSelect() {
-        System.out.println("fileSelect\n");
+        final Stage openFile = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        File plik = fileChooser.showOpenDialog(openFile);
+        //System.out.println(plik);
+        if (plik != null){
+        nazwa = plik.getAbsolutePath();
+        }
+        else{ System.err.println("Nie wybrano pliku.\n");
+        return;
     }
-    //     FileChooser filechooser = new FileChooser();
-    //     Stage stage = (Stage) fileSelect.getScene(),getWindow();
-    //     File file = filechooser.showOpenDialog();
-    //     if (file != null)
-    //     {
-    //         nazwa = file.getAbsolutePath();
-    //     }
-    //     System.out.println(nazwa);
-    // }
+        //System.out.println(nazwa);
+    }
     
 
     @FXML
     private void inpClicked() {
+        System.out.println(nazwa);
         try {
            l = Utils.readLabirynt(nazwa);
         } catch (Exception e) {
