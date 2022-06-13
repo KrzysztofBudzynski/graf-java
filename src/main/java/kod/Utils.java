@@ -78,5 +78,7 @@ public class Utils {
             }
             writer.write('\n');
         }
+        writer.flush();
+        writer.close();
     }
 }   //writer.write      System.out.println
