@@ -5,11 +5,25 @@ public class Bfs extends Thread {
     private boolean[] odwiedzono;
     private Stack stack;
     private int s;
+    private int k = -1;
     private Punkt current;
-    private boolean spojny;
+    private boolean spojny, malySpojny;
     public Bfs(Labirynt l, int start)
     {  
         this.s = start;
+        this.l = l;
+        this.current = l.getPkt().get(s);
+        odwiedzono = new boolean[l.getN()];
+        for (int i = 0; i < l.getN(); i++)
+        {
+            odwiedzono[i] = false;
+        }
+        stack = new Stack(l.getN());
+    }
+    public Bfs(Labirynt l, int start, int koniec)
+    {
+        this.s = start;
+        this.k = koniec;
         this.l = l;
         this.current = l.getPkt().get(s);
         odwiedzono = new boolean[l.getN()];
@@ -27,6 +41,10 @@ public class Bfs extends Thread {
             {
                 stack.Push(current.getEdges().get(i).getTo().getIndex());
                 odwiedzono[current.getEdges().get(i).getTo().getIndex()] = true;
+                if (current.getEdges().get(i).getTo().getIndex() == k)
+                    {
+                        malySpojny = true;
+                    }
                 //System.out.println(i + current.getEdges().get(i).getTo().getIndex());
                 //System.out.println(i);
             }
@@ -64,6 +82,10 @@ public class Bfs extends Thread {
     public boolean getSpojny()
         {
             return spojny;
+        }
+    public boolean getMalySpojny()
+        {
+            return malySpojny;
         }
     
 
