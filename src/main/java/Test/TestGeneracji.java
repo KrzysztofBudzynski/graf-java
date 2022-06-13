@@ -8,7 +8,7 @@ public class TestGeneracji {
         Labirynt l = new Labirynt(25, 25);
         Bfs b = new Bfs(l, 0);
         Dijkstra d = new Dijkstra(l, 0);
-        for( int i = 0; i < 250; i++ ) {
+        for( int i = 0; i < 1000; i++ ) {
             l.genWagi();
             b.start();
             d.start();

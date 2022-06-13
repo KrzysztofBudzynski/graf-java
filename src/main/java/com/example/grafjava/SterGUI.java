@@ -54,7 +54,7 @@ public class SterGUI
         if( koncowy.getText() != "" ) {
             end = Integer.parseInt(koncowy.getText());
         }
-        if( start < 0 || start >= l.getN() || end < 0 || end >= l.getN() ) {
+        if( start < 0 || start >= l.getN() || end < 0 || ( end >= l.getN() && end != Integer.MAX_VALUE)) {
             System.err.println("Niepoprawny punkt start/stop");
             return;
         }
