@@ -16,7 +16,8 @@ import kod.*;
 import com.example.grafjava.HelloApplication;
 import com.example.grafjava.*;
 
-public class SterGUI {
+public class SterGUI
+{
     public TextField szerokosc;
     public TextField wysokosc;
     public String nazwa;
@@ -33,6 +34,16 @@ public class SterGUI {
     private Bfs b;
     private Dzielnik dz;
     private GraphicsContext grc;
+    public Color[] colors;
+    
+    @FXML
+    public void assignColors()
+    {
+        colors = new Color[100];
+        for (int i = 0; i < 100; i++) {
+            colors[i] = Color.rgb(0, 0,(55 + (i*2))%256);
+        }
+    }
 
     @FXML
     private Label welcomeText;
@@ -208,20 +219,42 @@ public class SterGUI {
         double dy = (canvas.getHeight() - 50)/ l.getH();
         double x, y;
         double r = 3;
+        int k = 0;
         System.out.println(canX + " " + canY + " " + dx + " " + dy);
         grc = canvas.getGraphicsContext2D();
         grc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         grc.setFill(Color.BLACK);
+        // System.out.println("before color\n");
+        assignColors();
+        // System.out.println("after color\n");
         for(Punkt p : l ) {
+            grc.setFill(Color.BLACK);
+            // if (colors[p.getWiersz()] != null){
+            //     grc.setFill(colors[p.getIndex()%100]);
+            // }
             x = canX + dx * p.getKolumna() + r;
             y = canY + dy * p.getWiersz() + r;
             p.setPX(x);
             p.setPY(y);
             grc.fillOval(x - r, y - r, 2 * r, 2 * r);
             if( p.getEdges().get(1).getTo() != null ) {
+                k = (int)(100 -(p.getEdges().get(1).getWaga()*100));
+                System.out.println(k + ":" + p.getEdges().get(1).getWaga());
+                if (k <= 99 && k >= 0){
+                    if (colors[k] != null){
+                        grc.setFill(colors[k]);
+                    }
+                }
                 grc.fillRect(x, y, dx, 1);
             }
             if( p.getEdges().get(2).getTo() != null ) {
+                k = (int)(100 - (p.getEdges().get(2).getWaga()*100));
+                System.out.println(k + ":" + p.getEdges().get(2).getWaga());
+                if (k <= 99 && k >= 0){
+                    if (colors[k] != null){
+                        grc.setFill(colors[k]);
+                    }
+                }
                 grc.fillRect(x, y, 1, dy);
             }
         }
