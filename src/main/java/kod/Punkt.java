@@ -58,7 +58,7 @@ public class Punkt implements Comparable<Object> {
 
     public boolean czySam() {
         for( int i = 0; i < 4; i++ ) {
-            if( edges.get(i).getWaga() > 0 ) {
+            if( edges.get(i).getWaga() > 0 && edges.get(i).getTo() != null ) {
                 return false;
             }
         }

@@ -27,7 +27,7 @@
             <TextField fx:id="koncowy" alignment="CENTER" prefHeight="25.0" prefWidth="55.0" promptText="DO" />
             <ToggleButton fx:id="force" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="FORCE" />
             <Button fx:id="start" mnemonicParsing="false" onAction="#startClicked" prefHeight="25.0" prefWidth="60.0" text="START" />
-            <TextField fx:id="czesci" alignment="CENTER" layoutX="464.0" layoutY="10.0" prefHeight="26.0" prefWidth="66.0" promptText="OD" text="części" />
+            <TextField fx:id="czesci" alignment="CENTER" layoutX="464.0" layoutY="10.0" prefHeight="26.0" prefWidth="66.0" promptText="części" />
             <Button fx:id="dziel" layoutX="156.0" layoutY="10.0" minWidth="0.0" mnemonicParsing="false" onAction="#dzielClicked" prefHeight="25.0" prefWidth="60.0" text="DZIEL" />
          </children>
          <opaqueInsets>

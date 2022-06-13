@@ -13,8 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import kod.*;
-import com.example.grafjava.HelloApplication;
-import com.example.grafjava.*;
 
 public class SterGUI
 {
@@ -34,14 +32,14 @@ public class SterGUI
     private Bfs b;
     private Dzielnik dz;
     private GraphicsContext grc;
-    public Color[] colors;
+    public Color[] colorsBlue;
     
     @FXML
     public void assignColors()
     {
-        colors = new Color[100];
+        colorsBlue = new Color[100];
         for (int i = 0; i < 100; i++) {
-            colors[i] = Color.rgb(0, 0,(55 + (i*2))%256);
+            colorsBlue[i] = Color.rgb(0, 0,(55 + (i*2))%256);
         }
     }
 
@@ -118,6 +116,7 @@ public class SterGUI
 
     @FXML
     private void genClicked() {
+        d = null;
         int width;
         int height;
         String slowoWys;
@@ -220,7 +219,7 @@ public class SterGUI
         double x, y;
         double r = 3;
         int k = 0;
-        System.out.println(canX + " " + canY + " " + dx + " " + dy);
+        //  System.out.println(canX + " " + canY + " " + dx + " " + dy);
         grc = canvas.getGraphicsContext2D();
         grc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         grc.setFill(Color.BLACK);
@@ -228,7 +227,12 @@ public class SterGUI
         assignColors();
         // System.out.println("after color\n");
         for(Punkt p : l ) {
-            grc.setFill(Color.BLACK);
+            if( d != null ) {
+                int ratio = (int)(d.getMin()[p.getIndex()] / d.getMax() * 255);
+                grc.setFill(Color.rgb(ratio, 0, ratio));
+            } else {
+                grc.setFill(Color.BLACK);
+            }
             // if (colors[p.getWiersz()] != null){
             //     grc.setFill(colors[p.getIndex()%100]);
             // }
@@ -239,20 +243,20 @@ public class SterGUI
             grc.fillOval(x - r, y - r, 2 * r, 2 * r);
             if( p.getEdges().get(1).getTo() != null ) {
                 k = (int)(100 -(p.getEdges().get(1).getWaga()*100));
-                System.out.println(k + ":" + p.getEdges().get(1).getWaga());
+                //      System.out.println(k + ":" + p.getEdges().get(1).getWaga());
                 if (k <= 99 && k >= 0){
-                    if (colors[k] != null){
-                        grc.setFill(colors[k]);
+                    if (colorsBlue[k] != null){
+                        grc.setFill(colorsBlue[k]);
                     }
                 }
                 grc.fillRect(x, y, dx, 1);
             }
             if( p.getEdges().get(2).getTo() != null ) {
                 k = (int)(100 - (p.getEdges().get(2).getWaga()*100));
-                System.out.println(k + ":" + p.getEdges().get(2).getWaga());
+                //      System.out.println(k + ":" + p.getEdges().get(2).getWaga());
                 if (k <= 99 && k >= 0){
-                    if (colors[k] != null){
-                        grc.setFill(colors[k]);
+                    if (colorsBlue[k] != null){
+                        grc.setFill(colorsBlue[k]);
                     }
                 }
                 grc.fillRect(x, y, 1, dy);
@@ -331,6 +335,10 @@ public class SterGUI
     private void dzielClicked() {
         if( l == null ) {
             System.err.println("Nie ma nic do dzielenia");
+            return;
+        }
+        if( czesci.getText() == "" ) {
+            System.err.println("Nie podano na ile dzielić");
             return;
         }
         int n = Integer.parseInt(czesci.getText());

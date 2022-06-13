@@ -7,6 +7,7 @@ public class Dijkstra extends Thread {
     private int[] odw;
     private int[] przez;
     private double[] min;
+    private double max;
     private final int sIndex;        //indeks punktu startowego
     private Punkt current;     // miejsce na przechowanie punktu
 
@@ -55,6 +56,7 @@ public class Dijkstra extends Thread {
     @Override
     public synchronized void start() {
         launch();
+        setMax();
     }
 
     public int[] getOdw() {
@@ -67,6 +69,18 @@ public class Dijkstra extends Thread {
 
     public int[] getPrzez() {
         return przez;
+    }
+
+    public void setMax() {
+        double m = min[0];
+        for( double d : min ) {
+            if( m < d ) m = d;
+        }
+        this.max = m;
+    }
+
+    public double getMax() {
+        return max;
     }
 
     public boolean testOdw() {      // czy wszystkie odwiedzone
