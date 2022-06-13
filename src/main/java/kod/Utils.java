@@ -73,10 +73,10 @@ public class Utils {
             writer.write(p.getIndex());
             for( Edge e : p.getEdges() ) {
                 if( e.getTo() != null ) {
-                    writer.write(" :" + e.getWaga());
+                    writer.write(" :" + e.getWaga() + " ");
                 }
             }
             writer.write('\n');
         }
     }
-}
+}   //writer.write      System.out.println

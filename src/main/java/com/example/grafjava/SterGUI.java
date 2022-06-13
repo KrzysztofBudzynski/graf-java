@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import kod.*;
-import kod.Utils.writeLabirynt;
 
 public class SterGUI
 {
@@ -340,12 +339,10 @@ public class SterGUI
             System.err.println("Nie podano nazwy");
             return;
         }
-        else {
-            try {
-                writeLabirynt(l, nazwa);
-            } catch (Exception e) {
-                System.err.println(e.getLocalizedMessage());
-            }
+        try {
+            Utils.writeLabirynt(l, nazwa);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 }
