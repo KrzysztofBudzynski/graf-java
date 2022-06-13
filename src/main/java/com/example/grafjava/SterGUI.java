@@ -44,9 +44,6 @@ public class SterGUI
     }
 
     @FXML
-    private Label welcomeText;
-
-    @FXML
     private void startClicked() {
         boolean czyForce = force.isSelected();
         int start = 0;
@@ -95,23 +92,6 @@ public class SterGUI
                 i = d.getPrzez()[i];
             }
         }
-
-        
-
-        // for(Punkt p : l ) {
-        //     x = canX + dx * p.getKolumna() + r;
-        //     y = canY + dy * p.getWiersz() + r;
-        //     p.setPX(x);
-        //     p.setPY(y);
-        //     grc.fillOval(x - r, y - r, 2 * r, 2 * r);
-        //     if( p.getEdges().get(1).getTo() != null ) {
-        //         grc.fillRect(x, y, dx, 1);
-        //     }
-        //     if( p.getEdges().get(2).getTo() != null ) {
-        //         grc.fillRect(x, y, 1, dy);
-        //     }
-        // }
-
     }
 
     @FXML
@@ -122,16 +102,6 @@ public class SterGUI
         String slowoWys;
         String slowoSzer;
         int maxWymiar = 10000;
-        //String [] words = wymiary.getText().split("\\s+");
-
-        // if( words.length != 2 ) {
-        //     System.err.println("Niepoprawne dane w okno nazwa");
-        //     return;
-        // }
-
-        // height = Integer.parseInt(words[0]);
-        // width = Integer.parseInt(words[1]);
-
         if(Objects.equals(wysokosc.getText(), "") || Objects.equals(szerokosc.getText(), "")) {
             System.err.println("Nie wpisano wartości");
             return;
@@ -158,11 +128,6 @@ public class SterGUI
             System.err.println("Podano wymiar szerokosci nizszy niz 0.");
             return;
         }
-
-        // if( width <= 0 || height <= 0 ) {
-        //     System.err.println("Podano rozmiary mniejsze od 1");
-        //     return;
-        // }
         l = new Labirynt(height, width);
         l.gen();
         System.out.println("Wygenerowano, wysokosc " + height + " szerokosc " + width + "\n");
@@ -187,9 +152,6 @@ public class SterGUI
             System.err.println("Nie wybrano pliku.\n");
             return;
         }
-
-
-        //System.out.println(nazwa);
     }
     
 
@@ -335,6 +297,10 @@ public class SterGUI
     private void dzielClicked() {
         if( l == null ) {
             System.err.println("Nie ma nic do dzielenia");
+            return;
+        }
+        if( l.getCz() > 1 ) {
+            System.err.println("Graf był już dzielony");
             return;
         }
         if( czesci.getText() == "" ) {

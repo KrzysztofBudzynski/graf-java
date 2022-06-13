@@ -40,6 +40,10 @@ public class Labirynt implements Iterable<Punkt>{
         this.cz = 1;
     }
 
+    public int getCz() {
+        return cz;
+    }
+
     public void genWagi() {
         Random r = new Random();
         for( Punkt p : pkt ) {
@@ -186,5 +190,9 @@ public class Labirynt implements Iterable<Punkt>{
                 return pkt.get(curr++);
             }
         };
+    }
+
+    public void setCz(int cz) {
+        this.cz = cz;
     }
 }
