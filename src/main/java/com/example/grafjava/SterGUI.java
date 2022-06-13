@@ -329,4 +329,22 @@ public class SterGUI
         }
         rysuj();
     }
+    @FXML
+    private void zapClicked(){
+        if( l == null ) {
+            System.err.println("Nie ma nic do zapisania");
+            return;
+        }
+        else if (nazwa == null) {
+            System.err.println("Nie podano nazwy");
+            return;
+        }
+        else {
+            try {
+                System.out.println("tu bedzie Zapisano do pliku");
+            } catch (Exception e) {
+                System.err.println(e.getLocalizedMessage());
+            }
+        }
+    }
 }
