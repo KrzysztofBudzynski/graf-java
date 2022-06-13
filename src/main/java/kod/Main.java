@@ -25,14 +25,10 @@ public class Main {
             System.err.println(e.getLocalizedMessage());
         }
         for( int i : d.getPrzez() ) System.out.println(i);
-        Dzielnik dz = new Dzielnik(l, 2);
-        dz.start();
-        try {
-            dz.join();
-        } catch (InterruptedException ignored) {}
         Bfs bfs = new Bfs(l, 0);
         bfs.start();
         System.out.println("stan spojnosci grafu:" + bfs.getSpojny());
         System.out.println(l);
+        System.out.println(d.getMax());
     }
 }
