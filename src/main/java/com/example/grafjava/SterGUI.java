@@ -62,14 +62,22 @@ public class SterGUI
             System.err.println("Nie wczytano żadnego grafu");
             return;
         }
-        b = new Bfs(l, 0);
+        b = new Bfs(l, start, end);
         b.start();
         try {
             b.join();
         } catch (InterruptedException ignored) {}
+        //System.out.println(b.getSpojny() + " " + b.getMalySpojny() + " start: " + start + " koniec: " + end);
         if( ! b.getSpojny()  && !czyForce ) {
             System.err.println("Graf niespójny, bez wymuszenia, szukanie ścieżki się nie odbywa");
             return;
+        }
+        if( czyForce && !b.getSpojny() ) {
+            if (!b.getMalySpojny())
+            {
+                System.err.println("Graf niespójny, z wymuszeniem, szukanie ścieżki się nie odbywa, poniewaz takowa nie istnieje.");
+                return;
+            }
         }
         d = new Dijkstra(l, start);
         d.start();
