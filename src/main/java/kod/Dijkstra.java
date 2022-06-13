@@ -22,6 +22,7 @@ public class Dijkstra extends Thread {
         przez[start] = start;
         min = new double[l.getN()];
         Arrays.fill(min, Integer.MAX_VALUE);
+        Arrays.fill(przez, Integer.MAX_VALUE);
         min[start] = 0;
     }
 
@@ -81,6 +82,10 @@ public class Dijkstra extends Thread {
 
     public double getMax() {
         return max;
+    }
+
+    public int getsIndex() {
+        return sIndex;
     }
 
     public boolean testOdw() {      // czy wszystkie odwiedzone
