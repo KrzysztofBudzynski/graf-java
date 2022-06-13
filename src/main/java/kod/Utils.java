@@ -1,8 +1,6 @@
 package kod;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 
 public class Utils {
@@ -66,5 +64,19 @@ public class Utils {
             ln++;
         }
         return l;
+    }
+
+    public static void writeLabirynt( Labirynt l, String path ) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+        writer.write(l.getH() + " " + l.getW() + '\n');
+        for( Punkt p : l ) {
+            writer.write(p.getIndex());
+            for( Edge e : p.getEdges() ) {
+                if( e.getTo() != null ) {
+                    writer.write(" :" + e.getWaga());
+                }
+            }
+            writer.write('\n');
+        }
     }
 }
