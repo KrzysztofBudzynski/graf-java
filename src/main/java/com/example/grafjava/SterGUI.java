@@ -6,9 +6,7 @@ import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.*;
 import javafx.scene.control.Label;
@@ -18,7 +16,8 @@ import kod.*;
 import com.example.grafjava.HelloApplication;
 import com.example.grafjava.*;
 
-public class SterGUI {
+public class SterGUI
+{
     public TextField szerokosc;
     public TextField wysokosc;
     public String nazwa;
@@ -28,10 +27,23 @@ public class SterGUI {
     public TextField koncowy;
     public ToggleButton force;
     public Label nazwapliku;
+    public Button dziel;
+    public TextField czesci;
     private Labirynt l = null;
     private Dijkstra d;
     private Bfs b;
+    private Dzielnik dz;
     private GraphicsContext grc;
+    public Color[] colors;
+    
+    @FXML
+    public void assignColors()
+    {
+        colors = new Color[100];
+        for (int i = 0; i < 100; i++) {
+            colors[i] = Color.rgb(0, 0,(55 + (i*2))%256);
+        }
+    }
 
     @FXML
     private Label welcomeText;
@@ -57,7 +69,7 @@ public class SterGUI {
         try {
             b.join();
         } catch (InterruptedException ignored) {}
-        if( ! b.getSpojny() ) {
+        if( ! b.getSpojny()  && !czyForce ) {
             System.err.println("Graf niespójny, bez wymuszenia, szukanie ścieżki się nie odbywa");
             return;
         }
@@ -67,6 +79,38 @@ public class SterGUI {
             d.join();
         } catch (InterruptedException ignored) {}
         System.out.println("Graf przeszukany, start = " + start + " koniec = " + end + " force = " + czyForce);
+        grc.setFill(Color.BLACK);
+        double dx = (canvas.getWidth() - 50) / l.getW();
+        double dy = (canvas.getHeight() - 50)/ l.getH();
+        double r = 3;
+        //grc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight() );
+        rysuj();
+        rysujSciezke();
+        
+        if( end != Integer.MAX_VALUE ) {
+            int i = end;
+            while( i != start ) {
+                System.out.println(i + " " + d.getPrzez()[i]);
+                i = d.getPrzez()[i];
+            }
+        }
+
+        
+
+        // for(Punkt p : l ) {
+        //     x = canX + dx * p.getKolumna() + r;
+        //     y = canY + dy * p.getWiersz() + r;
+        //     p.setPX(x);
+        //     p.setPY(y);
+        //     grc.fillOval(x - r, y - r, 2 * r, 2 * r);
+        //     if( p.getEdges().get(1).getTo() != null ) {
+        //         grc.fillRect(x, y, dx, 1);
+        //     }
+        //     if( p.getEdges().get(2).getTo() != null ) {
+        //         grc.fillRect(x, y, 1, dy);
+        //     }
+        // }
+
     }
 
     @FXML
@@ -118,8 +162,9 @@ public class SterGUI {
         //     return;
         // }
         l = new Labirynt(height, width);
-        l.genWagi();
+        l.gen();
         System.out.println("Wygenerowano, wysokosc " + height + " szerokosc " + width + "\n");
+        rysuj();
     }
     @FXML
     private void fileSelect() {
@@ -155,8 +200,9 @@ public class SterGUI {
             System.err.println(e.getMessage());
         }
         if( l != null ) {
-            System.out.println("Wczytano z: " + nazwa);
+            System.out.println("Wczytano z: " + nazwa + " h = " + l.getH() + " w = " + l.getW());
         }
+        rysuj();
     }
 
     private void rysuj() {
@@ -164,11 +210,138 @@ public class SterGUI {
             System.err.println("Nie jest wczytany graf do rysowania");
             return;
         }
-        double dx = canvas.getWidth() / l.getW();
-        double dy = canvas.getHeight() / l.getH();
+        double canX = canvas.getLayoutX();
+        double canY = canvas.getLayoutY();
+        double dx = (canvas.getWidth() - 50) / l.getW();
+        double dy = (canvas.getHeight() - 50)/ l.getH();
+        double x, y;
+        double r = 3;
+        int k = 0;
+        System.out.println(canX + " " + canY + " " + dx + " " + dy);
         grc = canvas.getGraphicsContext2D();
+        grc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        grc.setFill(Color.BLACK);
+        // System.out.println("before color\n");
+        assignColors();
+        // System.out.println("after color\n");
         for(Punkt p : l ) {
-
+            grc.setFill(Color.BLACK);
+            // if (colors[p.getWiersz()] != null){
+            //     grc.setFill(colors[p.getIndex()%100]);
+            // }
+            x = canX + dx * p.getKolumna() + r;
+            y = canY + dy * p.getWiersz() + r;
+            p.setPX(x);
+            p.setPY(y);
+            grc.fillOval(x - r, y - r, 2 * r, 2 * r);
+            if( p.getEdges().get(1).getTo() != null ) {
+                k = (int)(100 -(p.getEdges().get(1).getWaga()*100));
+                System.out.println(k + ":" + p.getEdges().get(1).getWaga());
+                if (k <= 99 && k >= 0){
+                    if (colors[k] != null){
+                        grc.setFill(colors[k]);
+                    }
+                }
+                grc.fillRect(x, y, dx, 1);
+            }
+            if( p.getEdges().get(2).getTo() != null ) {
+                k = (int)(100 - (p.getEdges().get(2).getWaga()*100));
+                System.out.println(k + ":" + p.getEdges().get(2).getWaga());
+                if (k <= 99 && k >= 0){
+                    if (colors[k] != null){
+                        grc.setFill(colors[k]);
+                    }
+                }
+                grc.fillRect(x, y, 1, dy);
+            }
         }
+    }
+    @FXML
+    private void rysujSciezke() {
+        double canX = canvas.getLayoutX();
+        double canY = canvas.getLayoutY();
+        double dx = (canvas.getWidth() - 50) / l.getW();
+        double dy = (canvas.getHeight() - 50)/ l.getH();
+        double x, y, x2, y2;
+        double r = 3;
+        int start = 0;
+        int end = Integer.MAX_VALUE;
+        Punkt p, p2;
+        if( poczatkowy.getText() != "" ) {
+            start = Integer.parseInt(poczatkowy.getText());
+        }
+        if( koncowy.getText() != "" ) {
+            end = Integer.parseInt(koncowy.getText());
+        }
+        if( l == null ) {
+            System.err.println("Nie wczytano żadnego grafu");
+            return;
+        }
+        grc.setFill(Color.RED);
+        if( end != Integer.MAX_VALUE ) {
+            int i = end;
+            while( i != start ) {
+                p = l.getPkt().get(i);
+                p2 = l.getPkt().get(d.getPrzez()[i]);
+                x = canX + dx * p.getKolumna() + r;
+                y = canY + dy * p.getWiersz() + r;
+                p.setPX(x);
+                p.setPY(y);
+                p2.setPX(x);
+                p2.setPY(y);
+                x2 = canX + dx * p2.getKolumna() + r;
+                y2 = canY + dy * p2.getWiersz() + r;
+
+                grc.fillOval(x - r, y - r, 2 * r, 2 * r);
+                grc.fillOval(x2 - r, y2 - r, 2 * r, 2 * r);
+                if( p.getEdges().get(1).getTo() != null) {
+                    if (p.getEdges().get(1).getTo().getIndex() == d.getPrzez()[i])
+                    {
+                        grc.fillRect(x, y, dx, 1);
+                    }
+                }
+                if( p.getEdges().get(2).getTo() != null) {
+                    if (p.getEdges().get(2).getTo().getIndex() == d.getPrzez()[i])
+                    {
+                        grc.fillRect(x, y, 1, dy);
+                    }
+                }
+                if (p2.getEdges().get(1).getTo() != null) {
+                    if (p2.getEdges().get(1).getTo().getIndex() == i)
+                    {
+                        grc.fillRect(x2, y2, dx, 1);
+                    }
+                }
+                if (p2.getEdges().get(2).getTo() != null) {
+                    if (p2.getEdges().get(2).getTo().getIndex() == i)
+                    {
+                        grc.fillRect(x2, y2, 1, dy);
+                    }
+                }
+                i = d.getPrzez()[i];
+
+            }
+        }
+    }
+
+    @FXML
+    private void dzielClicked() {
+        if( l == null ) {
+            System.err.println("Nie ma nic do dzielenia");
+            return;
+        }
+        int n = Integer.parseInt(czesci.getText());
+        if( n <= 1 ) {
+            System.err.println("Nie można dzielić na mniej niż 2 części");
+            return;
+        }
+        dz = new Dzielnik(l, n);
+        dz.start();
+        try {
+            dz.join();
+        } catch (InterruptedException e) {
+            System.err.println(e.getLocalizedMessage());
+        }
+        rysuj();
     }
 }

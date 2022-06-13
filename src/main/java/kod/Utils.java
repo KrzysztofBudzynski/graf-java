@@ -7,6 +7,10 @@ import java.util.Arrays;
 
 public class Utils {
     public static Labirynt readLabirynt( String path ) throws Exception {
+        if( ! path.endsWith( ".txt") ) {
+            throw new IOException("Błędny format pliku wejściowego");
+        }
+
         BufferedReader br = new BufferedReader(new FileReader(path));
         String line;
         int ln = 0;
