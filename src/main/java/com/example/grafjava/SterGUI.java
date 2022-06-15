@@ -342,6 +342,7 @@ public class SterGUI
         else {
             try {
                 System.out.println("tu bedzie Zapisano do pliku");
+                Utils.writeLabirynt(l, nazwa);
             } catch (Exception e) {
                 System.err.println(e.getLocalizedMessage());
             }

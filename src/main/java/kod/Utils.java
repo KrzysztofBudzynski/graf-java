@@ -70,13 +70,15 @@ public class Utils {
         BufferedWriter writer = new BufferedWriter(new FileWriter(path));
         writer.write(l.getH() + " " + l.getW() + '\n');
         for( Punkt p : l ) {
-            writer.write(p.getIndex());
+            //writer.write(Integer.toString(p.getIndex()));
             for( Edge e : p.getEdges() ) {
                 if( e.getTo() != null ) {
-                    writer.write(" :" + e.getWaga());
+                    writer.write(Integer.toString(e.getTo().getIndex()) + " :" + e.getWaga() + " ");
                 }
             }
             writer.write('\n');
         }
+        writer.flush();
+        writer.close();
     }
 }
