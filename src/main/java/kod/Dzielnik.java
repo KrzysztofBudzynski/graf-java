@@ -67,7 +67,7 @@ public class Dzielnik extends Thread {
         for( Punkt p : l ) {
             if( p.getEdges().get(1).getWaga() < 0 ) {
                 p.remove(1);
-            }
+            }   
             if( p.getEdges().get(2).getWaga() < 0 ) {
                 p.remove(2);
             }

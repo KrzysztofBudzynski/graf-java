@@ -182,8 +182,8 @@ public class SterGUI
             System.err.println("Nie jest wczytany graf do rysowania");
             return;
         }
-        double canX = canvas.getLayoutX();
-        double canY = canvas.getLayoutY();
+        double canX = 50;
+        double canY = 50;
         double dx = (canvas.getWidth() - 50) / l.getW();
         double dy = (canvas.getHeight() - 50)/ l.getH();
         double x, y;
@@ -235,8 +235,8 @@ public class SterGUI
     }
     @FXML
     private void rysujSciezke() {
-        double canX = canvas.getLayoutX();
-        double canY = canvas.getLayoutY();
+        double canX = 50;
+        double canY = 50;
         double dx = (canvas.getWidth() - 50) / l.getW();
         double dy = (canvas.getHeight() - 50)/ l.getH();
         double x, y, x2, y2;
